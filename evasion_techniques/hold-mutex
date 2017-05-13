@@ -1,0 +1,18 @@
+Attempts to evade dynamic analysis by executing only if the program
+is able to get and hold a mutex.
+
+usage: hold-mutex(executable_name,mutex_name)
+example: hold-mutex(example.exe,abc123)
+%% INCLUDE
+windows.h
+%% DEFINITIONS
+%%
+	HANDLE mutex;
+	mutex = CreateMutex(NULL, TRUE, "@@2");
+	if(GetLastError() == ERROR_ALREADY_EXISTS){
+>> EXECUTE
+	} else{
+		system("@@1");
+		Sleep(100);
+	}
+%%

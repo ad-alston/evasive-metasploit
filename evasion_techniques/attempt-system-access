@@ -1,0 +1,18 @@
+Attempts to evade dynamic analysis by accessing a process
+to which it shouldn't have access.
+
+usage: attempt-system-access(process_number)
+example: attempt-system-access(4)
+%% INCLUDE
+windows.h
+%% DEFINITIONS
+%%
+	HANDLE f;
+	HANDLE p;
+
+	p = OpenProcess( PROCESS_ALL_ACCESS, FALSE, @@1 );
+
+	if(p == NULL){
+>> EXECUTE
+	}
+%%

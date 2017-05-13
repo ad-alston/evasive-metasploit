@@ -1,0 +1,33 @@
+Attempts to evade dynamic analysis by creating and reading
+a file in an arbitrary location.
+
+usage: create-file(file_location)
+example: create-file(C:\\Users\\tmp.file)
+%% INCLUDE
+windows.h
+%% DEFINITIONS
+#define FILE_LOCATION "@@1"
+%%
+	HANDLE file;
+	DWORD temporary;
+
+	LPCVOID content = "ab1E";
+
+	char output_buffer[5] = {0};
+
+	file = CreateFile(FILE_LOCATION, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+
+	if(WriteFile(file, content, strlen((const char*) content), &temporary, NULL)){
+		CloseHandle(file);
+
+		file = CreateFile(FILE_LOCATION, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+		if(ReadFile(file, output_buffer, 4, &temporary, NULL)){
+			if(strncmp(content, output_buffer, 4)==0){
+>> EXECUTE
+			}
+		}
+	}
+
+	DeleteFile(FILE_LOCATION);
+%%

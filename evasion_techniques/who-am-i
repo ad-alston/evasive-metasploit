@@ -1,0 +1,13 @@
+Attempts to evade dynamic analysis by verifying the manner in which
+the file is called.
+
+usage: who-am-i(executable name)
+example: who-am-i(evasive_met.exe)
+%% INCLUDE
+%% DEFINITIONS
+%%
+	if(strstr(argv[0], "@@1") > 0){
+>> EXECUTE
+	}
+	
+%%

@@ -1,0 +1,25 @@
+Attempts to evade dynamic analysis by using too much memory 
+for the environment (burst).  
+
+usage: memory-bomb(memory region size, memory region value)
+example usage: memory-bomb(500000000,01)
+%% INCLUDE
+stdio.h
+stdlib.h
+string.h
+%% DEFINITIONS
+#define MB_MEMORY @@1
+%%
+	
+	char* mem_region = NULL;
+	mem_region = (char *) malloc(MB_MEMORY);
+
+	if(mem_region != NULL){
+		memset(mem_region, @@2, MB_MEMORY);
+		free(mem_region);
+>> EXECUTE
+	}
+%%
+
+
+

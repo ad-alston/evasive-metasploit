@@ -1,0 +1,21 @@
+Attempts to evade dynamic analysis by taking too much time before
+execution.
+
+Usage: patience-loop(number of iterations)
+Example: patience-loop(1000000000)
+%% INCLUDE
+%% DEFINITIONS
+#define PL_STEPS @@1
+%%
+	
+	int x = 0;
+	int i = 0;
+	for(i = 0; i < PL_STEPS; i++){
+		if(i%2 == 0)
+			x++;
+		else
+			x = (i*3)/2;
+	}
+>> EXECUTE
+	
+%%
